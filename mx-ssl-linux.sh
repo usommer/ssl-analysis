@@ -25,7 +25,7 @@ if [ "$#" -le "0" ]; then
 			echo ""
 			for server in $mx
 				do
-					date2=$(echo quit |openssl s_client -starttls smtp -connect "$server":25 2>/dev/null | openssl x509 -noout -dates | grep notAfter |cut -d"=" -f2) 			## get SSL expiry date from TLS connection
+					date2=$(echo quit |openssl s_client -starttls smtp -connect "$server":25 2>/dev/null | openssl x509 -noout -enddate |cut -d"=" -f2) 			## get SSL expiry date from TLS connection
 					exp_date_smtp=$(date -d "$date2" +"%s") 		## convert expiry date timestamp to seconds
 					echo "scale=0; ($exp_date_smtp - $cur_date) / 86400" |bc -l			## calculate expiry time and convert result to days
 			done
